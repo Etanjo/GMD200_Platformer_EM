@@ -34,7 +34,7 @@ public class move : MonoBehaviour
         if(_onGround){
             jumps = 2;
         }
-
+ 
         _input = new Vector2(Input.GetAxis("Horizontal"),0);
 
     
