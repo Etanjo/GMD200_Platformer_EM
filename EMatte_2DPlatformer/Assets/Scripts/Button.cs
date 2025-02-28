@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Button : MonoBehaviour
 {
+   public RuntimeSettings settings;
    [SerializeField] bool needPortal = false;
    [SerializeField] GameObject portal;
    [SerializeField] string scene;
@@ -15,16 +16,20 @@ public class Button : MonoBehaviour
       if(needPortal){
          portal = GameObject.FindGameObjectWithTag("Portal");
       }
-
+      if(scene ==""){
+         scene = settings.lastScene.name;
+      }
         
     }
 
 
-    void LoadScene(){
+    public void LoadScene(){
      if(needPortal){
-
+         portal.GetComponent<portal>().scene = scene;
       }else{
-
+         settings.lastScene = SceneManager.GetActiveScene();
+         settings.currentScene = SceneManager.GetSceneByName(scene);
+         SceneManager.LoadScene(scene);
       }
 
    }

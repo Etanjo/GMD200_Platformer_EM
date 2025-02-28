@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class portal : MonoBehaviour
 {
-
+   public RuntimeSettings settings;
    public string scene;
    [SerializeField] bool playerNear = false;
     // Start is called before the first frame update
@@ -18,6 +18,8 @@ public class portal : MonoBehaviour
     void Update()
     {
        if(playerNear = true && Input.GetKeyDown(KeyCode.E)) {
+         settings.lastScene = SceneManager.GetActiveScene();
+         settings.currentScene = SceneManager.GetSceneByName(scene);
          SceneManager.LoadScene(scene);
       }
     }
