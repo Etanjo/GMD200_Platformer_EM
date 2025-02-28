@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1109efad83be4db47b57a41599488276, type: 3}
   m_Name: Player Settings
   m_EditorClassIdentifier: 
-  walkSpeed: 6
+  walkSpeed: 20
   jumpSpeed: 10
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  spawnPoint: {x: 0, y: -2.5}
   deathY: -45
   movingTag: mover
+  grappleForce: 5

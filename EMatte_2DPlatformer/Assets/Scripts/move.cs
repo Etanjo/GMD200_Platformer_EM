@@ -138,8 +138,8 @@ public class move : MonoBehaviour
         }
 
         sR.flipX = !facingRight;
-
-        body.AddForce(_input * settings.walkSpeed);
+        Debug.Log(Time.deltaTime);
+        
 
         if (transform.position.y <= settings.deathY)
         {
@@ -187,12 +187,13 @@ public class move : MonoBehaviour
 
     void FixedUpdate()
     {
-        /* if (_onGround)
-         {
-             body.velocity= Vector2.ClampMagnitude(body.velocity, speed);
-         }
-        */
-    }
+      body.AddForce(_input * settings.walkSpeed);
+      /* if (_onGround)
+       {
+           body.velocity= Vector2.ClampMagnitude(body.velocity, speed);
+       }
+      */
+   }
 
 
     private void OnTriggerEnter2D(Collider2D collision)
