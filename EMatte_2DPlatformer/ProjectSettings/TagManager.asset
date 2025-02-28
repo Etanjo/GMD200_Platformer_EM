@@ -10,6 +10,7 @@ TagManager:
   - mover
   - grapple
   - collectible
+  - obstacle
   layers:
   - Default
   - TransparentFX

@@ -16,9 +16,15 @@ public class move : MonoBehaviour
     [SerializeField] GameObject[] grapplePoints;
     [SerializeField] GameObject nearestGrapple;
     [SerializeField] float distanceFromGrapple;
+    [SerializeField] Animator animator;
+    [SerializeField] SpriteRenderer sR;
+    public bool isFlipping = false;
+    float currentSpeed;
     public Vector2 spawnPoint = new Vector2(0, -2.5f);
     Vector2 _input;
-
+    [SerializeField] float previousYVelocity;
+    [SerializeField] float previousXVelocity;
+    [SerializeField] float previousTVelocity;
 
     // Start is called before the first frame update
 
@@ -50,22 +56,30 @@ public class move : MonoBehaviour
         return dist;
     }
 
+
     Vector2 vectorToGameObject(GameObject go)
     {
         Vector2 diff = go.transform.position - transform.position;
         Debug.Log(diff);
         return diff;
     }
+    public void stopFlippinng()
+    {
+        animator.SetBool("IsFlipping", false);
+    }
     void Start()
     {
 
         body = GetComponent<Rigidbody2D>();
         grapplePoints = GameObject.FindGameObjectsWithTag("grapple");
-        
+        animator = GetComponent<Animator>();
+        sR = GetComponent<SpriteRenderer>();
+
     }
 
     private void Update()
     {
+        //animator.SetBool("IsFlipping", isFlipping);
         RaycastHit2D rayHit = Physics2D.Raycast(transform.position, Vector2.down, 1f, settings.groundLayer);
 
         _onGround = (rayHit.collider != null);
@@ -85,7 +99,6 @@ public class move : MonoBehaviour
         else
         {
             transform.SetParent(null);
-            body.bodyType = RigidbodyType2D.Dynamic;
         }
         if (transform.parent != null)
         {
@@ -106,6 +119,8 @@ public class move : MonoBehaviour
             {
                 body.AddForce(transform.up * settings.jumpSpeed, ForceMode2D.Impulse);
                 jumps -= 1;
+                animator.SetTrigger("Flip");
+                animator.SetBool("IsFlipping", true);
             }
             /*if (transform.parent != null)
             {
@@ -113,9 +128,19 @@ public class move : MonoBehaviour
                 body.bodyType = RigidbodyType2D.Dynamic;
             }*/
         }
-       
-            body.AddForce(_input * settings.walkSpeed);
-        
+        if (body.velocity.x > 0)
+        {
+            facingRight = true;
+        }
+        else if (body.velocity.x < 0)
+        {
+            facingRight = false;
+        }
+
+        sR.flipX = !facingRight;
+
+        body.AddForce(_input * settings.walkSpeed);
+
         if (transform.position.y <= settings.deathY)
         {
             body.velocity = new Vector2(0, 0);
@@ -124,27 +149,70 @@ public class move : MonoBehaviour
         nearestGrapple = findClosestGrapplePoint();
         distanceFromGrapple = distanceFromGameObject(nearestGrapple);
 
-        if(Input.GetKeyDown(KeyCode.F)&&distanceFromGrapple <= 135)
+        if (Input.GetKeyDown(KeyCode.F) && distanceFromGrapple <= 135)
         {
             Vector2 grapple = vectorToGameObject(nearestGrapple);
             _onGround = false;
-            body.AddForce(grapple*settings.grappleForce,ForceMode2D.Impulse);
+            body.AddForce(grapple * settings.grappleForce, ForceMode2D.Impulse);
+            animator.SetTrigger("Flip");
+            animator.SetBool("IsFlipping", true);
         }
 
-        
+
+
+        currentSpeed = Mathf.Abs(body.velocity.x);
+
+        animator.SetFloat("Speed", currentSpeed);
+
+        if (body.velocity.y > 0)
+        {
+            animator.SetBool("IsJumping", true);
+
+        }
+        else if (body.velocity.y < 0)
+        {
+            animator.SetBool("IsFalling", true);
+            animator.SetBool("IsJumping", false);
+        }
+        else
+        {
+            animator.SetBool("IsFalling", false);
+            animator.SetBool("IsJumping", false);
+        }
+        previousYVelocity = Mathf.Abs(body.velocity.y);
+        previousXVelocity = Mathf.Abs(body.velocity.x);
+        previousTVelocity = previousXVelocity + previousYVelocity;
     }
 
 
     void FixedUpdate()
     {
-       /* if (_onGround)
-        {
-            body.velocity= Vector2.ClampMagnitude(body.velocity, speed);
-        }
-       */
+        /* if (_onGround)
+         {
+             body.velocity= Vector2.ClampMagnitude(body.velocity, speed);
+         }
+        */
     }
 
-  
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("obstacle"))
+        {
+            transform.position = spawnPoint;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        bool collisionBelow = collision.transform.position.y < transform.position.y;
+        if (collision.gameObject.CompareTag("Ground") && previousTVelocity >= 20 && collisionBelow)
+        {
+            animator.SetTrigger("Flip");
+            animator.SetBool("IsFlipping", true);
+        }
+    }
+
 }
 
 
