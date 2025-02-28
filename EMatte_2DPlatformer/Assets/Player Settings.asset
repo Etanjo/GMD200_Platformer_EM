@@ -19,3 +19,4 @@ MonoBehaviour:
     m_Bits: 8
   spawnPoint: {x: 0, y: -2.5}
   deathY: -45
+  movingTag: mover
