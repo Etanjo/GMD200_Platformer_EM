@@ -95,7 +95,7 @@ public class move : MonoBehaviour
             jumps = 1;
             if (rayHit.transform.gameObject.CompareTag("mover"))
             {
-                transform.SetParent(rayHit.transform.gameObject.transform, true);
+                //transform.SetParent(rayHit.transform.gameObject.transform, true);
 
             }
         }

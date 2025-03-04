@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class portal : MonoBehaviour
 {
-   public RuntimeSettings settings;
    public string scene;
    [SerializeField] bool playerNear = false;
     // Start is called before the first frame update
@@ -17,9 +16,10 @@ public class portal : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if(playerNear = true && Input.GetKeyDown(KeyCode.E)) {
-         settings.lastScene = SceneManager.GetActiveScene();
-         settings.currentScene = SceneManager.GetSceneByName(scene);
+       if(playerNear == true && Input.GetKeyDown(KeyCode.E)) {
+         PlayerPrefs.SetString("LastLevel", UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+         PlayerPrefs.Save();
+         Debug.Log(PlayerPrefs.GetString("LastLevel"));
          SceneManager.LoadScene(scene);
       }
     }
@@ -30,6 +30,9 @@ public class portal : MonoBehaviour
       }
    }
    private void OnTriggerExit2D(Collider2D collision){
-      playerNear = false;
+      if (collision.CompareTag("Player"))
+        {
+            playerNear = false;
+        }
    }
 }

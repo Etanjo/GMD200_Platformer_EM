@@ -7,16 +7,22 @@ public class platformMove : MonoBehaviour
 {
 
    [SerializeField] bool isVertical = false;
+   public Animator animator;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+   private void Start(){
+      animator = gameObject.GetComponent<Animator>();
+   }
 
-    }
-
-   // Update is called once per frame
-   void Update()
+   private void OnCollisionEnter2D(Collision2D collision)
    {
-      
+      if(collision.gameObject.CompareTag("Player")){
+         animator.SetBool("IsMoving", true);
+      }
+   }
+   private void OnCollisionExit2D(Collision2D collision){
+      if (collision.gameObject.CompareTag("Player"))
+        {
+            animator.SetBool("IsMoving", false);
+        }
    }
 }

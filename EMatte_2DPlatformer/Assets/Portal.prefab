@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6417286754357757587}
   - component: {fileID: 6761792453730947676}
+  - component: {fileID: 6567032396804931581}
   m_Layer: 0
   m_Name: Portal
   m_TagString: Portal
@@ -47,6 +48,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scene: 
   playerNear: 0
+--- !u!70 &6567032396804931581
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4511061416360753285}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 2, y: 4}
+  m_Direction: 0
 --- !u!1 &9171435204984003579
 GameObject:
   m_ObjectHideFlags: 0
