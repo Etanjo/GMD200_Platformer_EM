@@ -28,7 +28,7 @@ public class move : MonoBehaviour
    [SerializeField] bool grapplesExist = false;
     // Start is called before the first frame update
 
-    GameObject findClosestGrapplePoint()
+    GameObject FindClosestGrapplePoint()
     {
         GameObject closest = null;
         float distance = Mathf.Infinity;
@@ -47,7 +47,7 @@ public class move : MonoBehaviour
         return closest;
     }
 
-    float distanceFromGameObject(GameObject go)
+    float DistanceFromGameObject(GameObject go)
     {
         float dist;
         Vector2 diff;
@@ -57,13 +57,13 @@ public class move : MonoBehaviour
     }
 
 
-    Vector2 vectorToGameObject(GameObject go)
+    Vector2 VectorToGameObject(GameObject go)
     {
         Vector2 diff = go.transform.position - transform.position;
         Debug.Log(diff);
         return diff;
     }
-    public void stopFlipping()
+    public void StopFlipping()
     {
         animator.SetBool("IsFlipping", false);
     }
@@ -149,13 +149,13 @@ public class move : MonoBehaviour
         }
       if (grapplesExist)
       {
-         nearestGrapple = findClosestGrapplePoint();
-         distanceFromGrapple = distanceFromGameObject(nearestGrapple);
+         nearestGrapple = FindClosestGrapplePoint();
+         distanceFromGrapple = DistanceFromGameObject(nearestGrapple);
       }
 
         if (Input.GetKeyDown(KeyCode.F) && distanceFromGrapple <= 135 && grapplesExist)
         {
-            Vector2 grapple = vectorToGameObject(nearestGrapple);
+            Vector2 grapple = VectorToGameObject(nearestGrapple);
             _onGround = false;
             body.AddForce(grapple * settings.grappleForce, ForceMode2D.Impulse);
             animator.SetTrigger("Flip");
