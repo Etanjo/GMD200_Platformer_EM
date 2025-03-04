@@ -25,7 +25,7 @@ public class move : MonoBehaviour
     [SerializeField] float previousYVelocity;
     [SerializeField] float previousXVelocity;
     [SerializeField] float previousTVelocity;
-
+   [SerializeField] bool grapplesExist = false;
     // Start is called before the first frame update
 
     GameObject findClosestGrapplePoint()
@@ -63,7 +63,7 @@ public class move : MonoBehaviour
         Debug.Log(diff);
         return diff;
     }
-    public void stopFlippinng()
+    public void stopFlipping()
     {
         animator.SetBool("IsFlipping", false);
     }
@@ -72,6 +72,9 @@ public class move : MonoBehaviour
 
         body = GetComponent<Rigidbody2D>();
         grapplePoints = GameObject.FindGameObjectsWithTag("grapple");
+         if (grapplePoints != null) {
+         grapplesExist = true;
+         }
         animator = GetComponent<Animator>();
         sR = GetComponent<SpriteRenderer>();
 
@@ -139,17 +142,18 @@ public class move : MonoBehaviour
 
         sR.flipX = !facingRight;
 
-        body.AddForce(_input * settings.walkSpeed);
-
         if (transform.position.y <= settings.deathY)
         {
             body.velocity = new Vector2(0, 0);
             transform.position = spawnPoint;
         }
-        nearestGrapple = findClosestGrapplePoint();
-        distanceFromGrapple = distanceFromGameObject(nearestGrapple);
+      if (grapplesExist)
+      {
+         nearestGrapple = findClosestGrapplePoint();
+         distanceFromGrapple = distanceFromGameObject(nearestGrapple);
+      }
 
-        if (Input.GetKeyDown(KeyCode.F) && distanceFromGrapple <= 135)
+        if (Input.GetKeyDown(KeyCode.F) && distanceFromGrapple <= 135 && grapplesExist)
         {
             Vector2 grapple = vectorToGameObject(nearestGrapple);
             _onGround = false;
@@ -187,12 +191,13 @@ public class move : MonoBehaviour
 
     void FixedUpdate()
     {
-        /* if (_onGround)
-         {
-             body.velocity= Vector2.ClampMagnitude(body.velocity, speed);
-         }
-        */
-    }
+      body.AddForce(_input * settings.walkSpeed);
+      /* if (_onGround)
+       {
+           body.velocity= Vector2.ClampMagnitude(body.velocity, speed);
+       }
+      */
+   }
 
 
     private void OnTriggerEnter2D(Collider2D collision)

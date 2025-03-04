@@ -11,6 +11,7 @@ TagManager:
   - grapple
   - collectible
   - obstacle
+  - Portal
   layers:
   - Default
   - TransparentFX

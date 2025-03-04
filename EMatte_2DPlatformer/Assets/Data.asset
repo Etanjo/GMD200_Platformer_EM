@@ -9,14 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1109efad83be4db47b57a41599488276, type: 3}
-  m_Name: Player Settings
+  m_Script: {fileID: 11500000, guid: af077f30bf49a314285aa9a893ee3204, type: 3}
+  m_Name: Data
   m_EditorClassIdentifier: 
-  walkSpeed: 20
-  jumpSpeed: 10
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  deathY: -45
-  movingTag: mover
-  grappleForce: 5
+  lastScene:
+    m_Handle: 0
+  currentScene:
+    m_Handle: 0
